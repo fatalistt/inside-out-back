@@ -14,14 +14,18 @@ import ru.itmo.mpi.auth.AuthProviderBase
 import ru.itmo.mpi.auth.login_password.LoginPasswordAuthProvider
 import ru.itmo.mpi.auth.login_password.PBKDF2WithHmacSHA1PasswordHasher
 import ru.itmo.mpi.auth.login_password.PasswordHasher
+import ru.itmo.mpi.dal.FileRepository
 import ru.itmo.mpi.dal.LoginPasswordRepository
+import ru.itmo.mpi.dal.MemoryRepository
 import ru.itmo.mpi.dal.UserRepository
+import ru.itmo.mpi.dal.db.DbFileRepository
 import ru.itmo.mpi.dal.db.DbLoginPasswordRepository
+import ru.itmo.mpi.dal.db.DbMemoryRepository
 import ru.itmo.mpi.dal.db.DbUserRepository
 
 val insideOutModule = module {
     val connectionFactory = DriverManagerConnectionFactory(
-        "jdbc:postgresql://localhost:5432/inside-out",
+        "jdbc:postgresql://localhost:5433/inside-out",
         "s310279",
         "ohl234"
     )
@@ -35,6 +39,9 @@ val insideOutModule = module {
 
     factory<UserRepository> { DbUserRepository(get()) }
     factory<LoginPasswordRepository> { DbLoginPasswordRepository(get()) }
+    factory<FileRepository> { DbFileRepository(get()) }
+    factory<MemoryRepository> { DbMemoryRepository(get()) }
+
     factory<Database> { Database.connect(dataSource) }
 }
 

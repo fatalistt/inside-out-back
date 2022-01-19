@@ -33,3 +33,48 @@ insert into role
 values (1, 'emotion');
 insert into user_role(user_id, role_id)
 values (1, 1);
+
+create table file
+(
+    id           serial primary key,
+    content      bytea,
+    content_type varchar(2000)
+);
+
+create table short_memory
+(
+    id          serial primary key,
+    date        timestamptz,
+    type        varchar(2000),
+    description varchar(2000),
+    rating      integer
+);
+
+create index idx_short_memory
+    on short_memory (date, type, rating);
+
+create table short_memory_file
+(
+    id        bigserial primary key,
+    memory_id integer references short_memory,
+    file_id   integer references file
+);
+
+create table long_memory
+(
+    id          integer primary key,
+    date        timestamptz,
+    type        varchar(2000),
+    description varchar(2000),
+    rating      integer
+);
+
+create index idx_long_memory
+    on long_memory (date, type, rating);
+
+create table long_memory_file
+(
+    id        bigserial primary key,
+    memory_id integer references long_memory,
+    file_id   integer references file
+);

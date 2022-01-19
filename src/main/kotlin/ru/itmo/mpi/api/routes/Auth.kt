@@ -26,12 +26,13 @@ data class UserInfo(val id: Int, val message: Collection<String>, val role: Stri
 data class InfoResponse(val resultCode: Int, val message: Collection<String>, val data: UserInfo)
 
 fun Application.authRoute() {
-    val loginProvider: LoginPasswordAuthProvider by inject()
-    val userRepository: UserRepository by inject()
-
     routing {
         route("/auth") {
+            val userRepository: UserRepository by inject()
+
             route("/login") {
+                val loginProvider: LoginPasswordAuthProvider by inject()
+
                 post {
                     val user = loginProvider.tryAuthenticateUser(call) ?: throw AuthenticationException()
 

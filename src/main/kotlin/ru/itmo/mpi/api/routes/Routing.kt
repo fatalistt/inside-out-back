@@ -4,4 +4,5 @@ import io.ktor.application.Application
 
 fun Application.configureRouting() {
     authRoute()
+    memoryRoute()
 }
